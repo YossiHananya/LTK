@@ -1,15 +1,19 @@
-from flask import Flask
+from flask import Flask, jsonify, request
     
 app=Flask(__name__)
 
-@app.route('/')
-def index():
-    return 'Hello User'
+
+players_list=[
+    { 'name': 'Assaf', 'team': 1 }
+]
 
 @app.route('/players')
 def get_players():
-    return []
+    return jsonify(players_list)
 
-@app.route('/players/register',methods=['POST'])
+@app.route('/players',methods=['POST'])
 def register_player():
-    return {}
+    player_data=request.get_json()
+    players_list.append(player_data)
+    response = {'message': 'Player added successfully'}
+    return jsonify(response), 200
