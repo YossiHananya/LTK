@@ -1,5 +1,5 @@
 import pytest
-from api.api import app as flask_app
+from soccer_application.api import app as flask_app
 
 @pytest.fixture()
 def app():

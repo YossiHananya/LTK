@@ -1,22 +1,7 @@
-from flask import Flask, jsonify, request, abort
+from soccer_application import app
+from flask import jsonify, request
+from logic.player import players
 import json
-    
-app=Flask(__name__)
-
-
-# An array that will hold players
-players = [
-    {
-        "id": 1,
-        "first_name": "Assaf",
-        "last_name": "Tal",
-    },
-    {
-        "id": 2,
-        "first_name": "Yossi",
-        "last_name": "Hananya",
-    }
-]
 
 @app.route("/")
 def index():
