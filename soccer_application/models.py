@@ -10,10 +10,10 @@ class Event(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     location=db.Column(db.String,nullable=False)
     event_date=db.Column(db.DateTime,nullable=False)
-    players=db.relationship('player.Player',secondary=event_player_association,backref='events')
+    players=db.relationship('Player',secondary=event_player_association,backref='events')
 
     def __repr__(self):
-        return f"Event('{self.location}','{'at'}','{self.last_name}')"
+        return f"Event('{self.location}','{'at'}','{self.event_date}')"
     
 
 class Player(db.Model):
