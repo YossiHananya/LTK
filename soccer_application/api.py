@@ -1,11 +1,12 @@
-from soccer_application import app
-from flask import jsonify, request
-from logic.player import players
 import json
+from flask import jsonify, request, render_template
+from soccer_application import app
+from soccer_application.models import Player
 
 @app.route("/")
+@app.route("/home")
 def index():
-    return "Testing, Flask!"
+    return render_template('home.html', title='home', players=Player.query.all())
 
 @app.route('/playersapi/players')
 #Getting all players

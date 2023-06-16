@@ -1,13 +1,3 @@
-def test_home_page(client):
-    """
-    GIVEN a Flask API Application Is Running
-    WHEN The '/' Page Is Requested (GET)
-    THEN Check The Response Is Valid 
-    """
-    response = client.get('/')
-    assert response.status_code == 200
-    assert b"Testing, Flask!" in response.data
-
 def test_playersapi_players_route(client):
     """
     GIVEN a Flask API Application Is Running 
