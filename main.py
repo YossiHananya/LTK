@@ -1,5 +1,5 @@
 import argparse
-from soccer_application.api import app
+from soccer_application import app
 
 def menu():
     parser=argparse.ArgumentParser()
