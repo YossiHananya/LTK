@@ -165,6 +165,15 @@
         </header>
         
         <main role="main" class="container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert aler {{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
             {% block body_content %}{% endblock body_content %}
         </main>
 
