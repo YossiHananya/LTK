@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField,SubmitField,BooleanField
-from wtforms.validators import DataRequired,Length,Email,ValidationError,validators,EqualTo
+from wtforms.validators import DataRequired,Length,Email,ValidationError,EqualTo
 import re
 
 def check_password_strength(form, field):
@@ -17,16 +17,16 @@ def check_password_strength(form, field):
     password = field.data
     #Checking for number in password
     if re.search(r"\d",password) is None:
-        raise validators.ValidationError("Password must contain at least one number")
+        raise ValidationError("Password must contain at least one number")
     #Checking for uppercase in password
     if re.search(r"[A-Z]", password) is None:
-        raise validators.ValidationError("Password must contain at least one uppercase")
+        raise ValidationError("Password must contain at least one uppercase")
     #Checking for uppercase in password
     if re.search(r"[a-z]", password) is None:
-        raise validators.ValidationError("Password must contain at least one lowecase")
+        raise ValidationError("Password must contain at least one lowecase")
     #Checking for symbol in password
     if re.search(r"\W", password) is None:
-        raise validators.ValidationError("Password must contain at least one symbol")
+        raise ValidationError("Password must contain at least one symbol")
     
 
 class RegistrationForm(FlaskForm):
