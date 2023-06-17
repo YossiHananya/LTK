@@ -1,5 +1,6 @@
 import json
 from flask import jsonify, request, render_template
+from soccer_application.forms import RegistrationForm,LoginForm
 from soccer_application import app
 from soccer_application.models import Player
 
