@@ -1,5 +1,12 @@
 
-from soccer_application import db
+from flask_login import UserMixin
+from soccer_application import db, login_manager
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id)) 
+
 
 event_player_association = db.Table('event_player_association',
     db.Column('event_id', db.Integer, db.ForeignKey('event.id')),
@@ -56,12 +63,12 @@ class MainTeam(Team):
     team = db.relationship('Team', backref='main_team')
     players=db.relationship('Player', backref='main_teams')
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     id=db.Column(db.Integer, primary_key=True)
     username=db.Column(db.String,nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
-    
+        
     def __repr__(self):
         return f"User('{self.username}','{self.email}')"
 
