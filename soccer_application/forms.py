@@ -1,7 +1,8 @@
-from flask_wtf import FlaskForm
+import re
 from wtforms import StringField, PasswordField,SubmitField,BooleanField
 from wtforms.validators import DataRequired,Length,Email,ValidationError,EqualTo
-import re
+from flask_wtf import FlaskForm
+from soccer_application.models import User
 
 def check_password_strength(form, field):
     """
@@ -40,6 +41,15 @@ class RegistrationForm(FlaskForm):
     password_confirmation=PasswordField('Confirm Password',
                                         validators=[DataRequired(),EqualTo('password')]) 
     submit=SubmitField('Sign Up')
+    
+    def validate_username(self, username):        
+        if User.query.filter_by(username=username.data).first():
+            raise ValidationError("Username already exists")
+
+    def validate_email(self, email):        
+        if User.query.filter_by(email=email.data).first():
+            raise ValidationError("Email already exists")
+
 
 class LoginForm(FlaskForm):
     email=StringField('Email',

@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Soccer application">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
 
         {% if title %}
         <title>LTK - {{ title }}</title>
@@ -118,15 +119,15 @@
         <header class="site-header">
             <nav class="navbar navbar-expand-md navbar-dark bg-dark">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">LTK</a>
+                    <a class="navbar-brand" href="{{ url_for('index') }}">LTK</a>
                     <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-    
+
                     <div class="navbar-collapse collapse" id="navbarCollapse" style="">
                         <ul class="navbar-nav me-auto mb-2 mb-md-0">
                             <li class="nav-item">
-                                <a class="nav-link text-white" aria-current="page" href="#">
+                                <a class="nav-link text-white" aria-current="page" href="{{ url_for('index') }}">
                                     <svg class="bi mx-auto me-2" width="24" height="24" role="img" aria-label="Home"><use xlink:href="#home"></use></svg>
                                     Home
                                 </a>
@@ -145,20 +146,33 @@
                             </li>
                         </ul>
 
+                        
                         <div class="d-flex flex-shrink-0 dropdown text-white">
-                            <a href="#" class="d-block link-body-emphasis text-decoration-none text-white dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="https://github.com/yossihananya.png" alt="mdo" width="32" height="32" class="rounded-circle">
-                                <strong>Yossi Hananya</strong>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end text-small shadow">
-                                <li><a class="dropdown-item" href="#">New project...</a></li>
-                                <li><a class="dropdown-item" href="#">Settings</a></li>
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Sign out</a></li>
-                            </ul>
-                        </div>
-    
+                            {% if current_user.is_authenticated %}
+                                <a href="#" class="d-block link-body-emphasis text-decoration-none text-white dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-person-circle" style="font-size: 1.5rem; color: cornflowerblue;"></i>
+                                        <strong>{{ current_user.username }}</strong>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                                    <li><a class="dropdown-item" href="#">New project...</a></li>
+                                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{{ url_for('logout') }}">Sign out</a></li>
+                                </ul>
+                            {% else %}
+                                <a href="#" class="d-block link-body-emphasis text-decoration-none text-white dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
+
+                                    <strong>Hello, Guest</strong>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                                    <li><a class="dropdown-item" href="{{ url_for('login') }}">Sign In</a></li>
+                                    <li><a class="dropdown-item" href="{{ url_for('register') }}">Register</a></li>
+                                </ul>
+                            {% endif %}
+                    </div>
+                    
                     </div>
                 </div>
             </nav>
