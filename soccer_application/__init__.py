@@ -3,17 +3,27 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from config import get_config
 
+db=SQLAlchemy()
+bcrypt = Bcrypt()
+login_manager = LoginManager()
 
-app = Flask(__name__)
-app.config['SECRET_KEY']='77c047c61ee454616ae47f76410bf10b'
-db_path = path.join(path.dirname(__file__), 'site.db')
-app.config['SQLALCHEMY_DATABASE_URI']= f'sqlite:///{db_path}'
-app.app_context().push()
-db=SQLAlchemy(app)
-bcrypt = Bcrypt(app)
-login_manager = LoginManager(app)
+def create_app():
+    app = Flask(__name__)
+    config=get_config()
+    app.config.from_object(config)
 
-from soccer_application import api
+    db.init_app(app)
+    bcrypt.init_app(app)
+    login_manager.init_app(app)
 
-db.create_all()
+    db_path = path.join(path.dirname(__file__), app.config['SQLALCHEMY_DATABASE_URI'])
+    app.config['SQLALCHEMY_DATABASE_URI']= f'sqlite:///{db_path}'
+
+    from soccer_application import api
+
+    with app.app_context():
+        db.create_all()
+
+    return app

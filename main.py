@@ -1,5 +1,5 @@
 import argparse
-from soccer_application import app
+from soccer_application import create_app
 
 def menu():
     parser=argparse.ArgumentParser()
@@ -21,6 +21,7 @@ def menu():
     return args
 
 def main(port, debug):
+    app=create_app()
     app.run(host='localhost',port=port, debug=debug)
 
 
