@@ -9,20 +9,13 @@ def menu():
         default=5000,
         help='Port For API'
     )
-    
-    parser.add_argument(
-        "-d",
-        "--debug", 
-        action="store_true",
-        help='Activate debug mode, code changes will automatically updated in the browser'
-    )
     args = parser.parse_args()
     
     return args
 
-def main(port, debug):
-    app=create_app()
-    app.run(host='localhost',port=port, debug=debug)
+def main(port):
+    app=create_app('dev')
+    app.run(host='localhost',port=port)
 
 
 if __name__=="__main__":

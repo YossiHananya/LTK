@@ -1,10 +1,11 @@
 import json
-from flask import jsonify, request, render_template, url_for, flash, redirect, current_app
+from flask import jsonify, request, render_template, url_for, flash, redirect
 from flask_login import login_user, logout_user, current_user 
-from soccer_application import db, bcrypt
+from soccer_application import db, bcrypt, create_app
 from soccer_application.forms import RegistrationForm,LoginForm
 from soccer_application.models import Player, User
 
+app=create_app('dev')
 
 @app.route("/")
 @app.route("/home")

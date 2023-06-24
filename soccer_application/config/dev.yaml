@@ -1,0 +1,4 @@
+APP_CONFIG:
+  DEBUG: True
+  DATABASE_URI: 'development.db'
+  SECRET_KEY: '77c047c61ee454616ae47f76410bf10b'
