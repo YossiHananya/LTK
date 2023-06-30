@@ -12,15 +12,7 @@ login_manager = LoginManager()
 
 def create_app(config_name):
     app = Flask(__name__)
-    config_dir = os.path.join(os.path.dirname(__file__), 'config')
-    if config_name == 'dev':
-        config_file = os.path.join(config_dir, 'dev.yaml')
-    elif config_name == 'testing':
-       config_file = os.path.join(config_dir, 'testing.yaml')
-    else:
-        raise ValueError(f"Invalid configuration name {config_name}")
-    
-    config=Config(config_file)
+    config=Config.from_type(config_value=config_name)
     db_path = path.join(path.dirname(__file__), config.get('APP_CONFIG')['DATABASE_URI'])
     app.config.update(config.get('APP_CONFIG'))
     app.config['SQLALCHEMY_DATABASE_URI']= f'sqlite:///{db_path}'

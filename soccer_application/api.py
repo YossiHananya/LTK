@@ -5,7 +5,7 @@ from soccer_application import db, bcrypt, create_app
 from soccer_application.forms import RegistrationForm,LoginForm
 from soccer_application.models import Player, User
 
-app=create_app('testing')
+app=create_app('dev')
 
 @app.route("/")
 @app.route("/home")
