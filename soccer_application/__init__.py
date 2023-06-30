@@ -21,9 +21,8 @@ def create_app(config_name):
     bcrypt.init_app(app)
     login_manager.init_app(app)
 
-    from soccer_application import api
-
     with app.app_context():
+        from . import api
         db.create_all()
 
     return app
