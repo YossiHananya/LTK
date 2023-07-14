@@ -38,6 +38,7 @@ def register():
         return redirect(url_for('index'))
         
     form=RegistrationForm()
+
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(
@@ -47,8 +48,11 @@ def register():
         )
         db.session.add(user)
         db.session.commit()
-        flash(f'Account created for {form.username.data}! Please login', 'success')
-        return redirect(url_for('login'))
+        flash(f'Account created for {form.username.data}!', 'success')
+
+        login_user(user, remember=form.remember.data)
+        return redirect(url_for('index'))
+    
     return render_template('register.html',title='Register',form=form)
 
 @app.route("/login",methods=['GET','POST'])
