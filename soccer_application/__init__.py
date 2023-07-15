@@ -5,12 +5,13 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from .config.config import Config
 import os
+from .config.config_names import ConfigName
 
 db=SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
 
-def create_app(config_name):
+def create_app(config_name=ConfigName.DEVELOPMENT):
     app = Flask(__name__)
     config=Config.from_type(config_value=config_name)
     db_path = path.join(path.dirname(__file__), config.get('APP_CONFIG')['DATABASE_URI'])
