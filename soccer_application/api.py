@@ -1,8 +1,8 @@
 import json
 from flask import jsonify, request, render_template, url_for, flash, redirect, current_app as app
-from flask_login import login_user, logout_user, current_user 
+from flask_login import login_user, logout_user, current_user, login_required
 from soccer_application import db, bcrypt
-from soccer_application.forms import RegistrationForm,LoginForm
+from soccer_application.forms import RegistrationForm, LoginForm, UpdateProfileForm
 from soccer_application.models import Player, User
 
 @app.route("/")
@@ -64,7 +64,8 @@ def login():
             flash('Login Unsuccessful. Incorrect Password','danger')
         else:
             login_user(user, remember=form.remember.data)
-            return redirect(url_for('index'))
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('index'))
         
     return render_template('login.html',title='Login',form=form)
 
@@ -72,3 +73,21 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
+@app.route("/profile", methods=['GET', 'POST'])
+@login_required
+def profile():
+    form = UpdateProfileForm()
+
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        db.session.commit()
+        flash("Profile was updated successfully", 'success')
+
+        return redirect(url_for('index'))
+
+    if request.method == 'GET':
+        form.username.data = current_user.username
+
+    return render_template('profile.html', title='Profile', form = form)
