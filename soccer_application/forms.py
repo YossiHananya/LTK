@@ -39,7 +39,8 @@ class RegistrationForm(FlaskForm):
     password=PasswordField('Password',
                            validators=[DataRequired(),Length(min=8),check_password_strength])
     password_confirmation=PasswordField('Confirm Password',
-                                        validators=[DataRequired(),EqualTo('password')]) 
+                                        validators=[DataRequired(),EqualTo('password')])
+    remember=BooleanField('Remember Me')
     submit=SubmitField('Sign Up')
     
     def validate_username(self, username):        

@@ -4,4 +4,4 @@ flask-wtf
 flask-bcrypt
 flask-login
 email_validator
-sqlalchemy_schemadisplay
+PyYaml
