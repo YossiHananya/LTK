@@ -1,8 +1,6 @@
 import pytest
-# from .conftest import app 
 from .conftest import db_session
 from soccer_application.models import User
-from soccer_application import db
 
 # Define test data as a list of dictionaries
 test_user_data = [
