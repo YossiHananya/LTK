@@ -1,4 +1,3 @@
-
 from flask_login import UserMixin
 from soccer_application import db, login_manager
 
