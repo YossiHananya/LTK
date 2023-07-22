@@ -14,11 +14,8 @@ login_manager = LoginManager()
 def create_app(config_name=ConfigName.DEVELOPMENT):
     app = Flask(__name__)
     config=Config.from_type(config_value=config_name)
-    if config_name==ConfigName.TESTING:
-        app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///:memory:'
-    else:
-        db_path = path.join(path.dirname(__file__), config.get('APP_CONFIG')['DATABASE_URI'])
-        app.config['SQLALCHEMY_DATABASE_URI']= f'sqlite:///{db_path}'
+    db_path = path.join(path.dirname(__file__), config.get('APP_CONFIG')['DATABASE_URI'])
+    app.config['SQLALCHEMY_DATABASE_URI']= f'sqlite:///{db_path}'
     app.config.update(config.get('APP_CONFIG'))
 
     db.init_app(app)
