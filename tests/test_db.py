@@ -3,9 +3,10 @@ from .conftest import db_session
 from soccer_application.models import User
 
 # Define test data as a list of dictionaries
-test_user_data = [
+test_data = [
     {
-        "user_data": {
+        "table_cls": User,
+        "origin_data": {
         "username": "John Doe",
         "email": "johndoe2@gmail.com",
         "password": "Password1!"
@@ -16,52 +17,59 @@ test_user_data = [
     }
 ]
 
-#Testing CRUD (Create, Read, Update & Delete) for User table
-@pytest.mark.parametrize("test_user_data", test_user_data)
-def test_create_user(db_session,test_user_data):
-    user_data=test_user_data['user_data']
-    # Create a user object
-    new_user = User(**user_data)
-    db_session.add(new_user)
+#Testing CRUD (Create, Read, Update & Delete) for Generic table
+@pytest.mark.parametrize("test_data", test_data)
+def test_create_db_object(db_session, test_data):
+    obj_data = test_data['origin_data']
+    db_obj_cls = test_data['table_cls']
+    
+    # Create a db object
+    new_obj = db_obj_cls(**obj_data)
+    db_session.add(new_obj)
     db_session.commit()
 
-    # Test that the user was added to the database
-    assert db_session.query(User).count() == 1
+    # Test that the db object was added to the database
+    assert db_session.query(db_obj_cls).count() == 1
 
-@pytest.mark.parametrize("test_user_data", test_user_data)
-def test_read_user(db_session,test_user_data):
-    user_data=test_user_data['user_data']
+@pytest.mark.parametrize("test_data", test_data)
+def test_read_db_obj(db_session, test_data):
+    obj_data = test_data['origin_data']
+    db_obj_cls = test_data['table_cls']
 
-    # Test that the user can be queried from the database
-    fetched_object = db_session.query(User).first()
+    # Test that the db object can be queried from the database
+    fetched_object = db_session.query(db_obj_cls).first()
 
-    for key,value in user_data.items():
+    for key,value in obj_data.items():
         assert getattr(fetched_object, key) == value
 
-@pytest.mark.parametrize("test_user_data", test_user_data)
-def test_update_user(db_session,test_user_data):
-    updated_data=test_user_data['updated_data']
+@pytest.mark.parametrize("test_data", test_data)
+def test_update_db_object(db_session, test_data):
+    updated_data = test_data['updated_data']
+    db_obj_cls = test_data['table_cls']
+    
+    fetched_object = db_session.query(db_obj_cls).first()
 
-    fetched_object = db_session.query(User).first()
-
-    #Set the new attributes for the new user
+    # Set the new attributes for the new db object
     for key, value in updated_data.items():
-        setattr(fetched_object,key,value)
+        setattr(fetched_object, key, value)
+
     db_session.commit()
 
-    #Fetch the updated user
-    updated_user = db_session.query(User).filter_by(id=fetched_object.id).first()
+    # Fetch the updated db object
+    updated_object = db_session.query(db_obj_cls).filter_by(id = fetched_object.id).first()
 
-    # Check if the user's data is updated
-    assert updated_user.username == updated_data['username']
+    # Check if the object's data is updated
+    for key in updated_data.keys():
+        assert getattr(updated_object, key) == updated_data[key]
 
-@pytest.mark.parametrize("test_user_data", test_user_data)
-def test_delete_user(db_session,test_user_data):
-
-    fetched_object = db_session.query(User).first()
+@pytest.mark.parametrize("test_data", test_data)
+def test_delete_db_object(db_session, test_data):
+    db_obj_cls = test_data['table_cls']
+    
+    fetched_object = db_session.query(db_obj_cls).first()
     # Test deleting the object
     db_session.delete(fetched_object)
     db_session.commit()
 
     # Test that the object was removed from the database
-    assert db_session.query(User).count() == 0
+    assert db_session.query(db_obj_cls).count() == 0
