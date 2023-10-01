@@ -33,16 +33,28 @@ def check_password_strength(form, field):
 
 class RegistrationForm(FlaskForm):
 
-    username=StringField('Username',
-                         validators=[DataRequired(),Length(min=2,max=20)])
-    email=StringField('Email',
-                      validators=[DataRequired(),Email()])
-    password=PasswordField('Password',
-                           validators=[DataRequired(),Length(min=8),check_password_strength])
-    password_confirmation=PasswordField('Confirm Password',
-                                        validators=[DataRequired(),EqualTo('password')])
-    remember=BooleanField('Remember Me')
-    submit=SubmitField('Sign Up')
+    username = StringField(
+        'Username',
+        validators=[DataRequired(),Length(min=2,max=20)]
+    )
+    
+    email = StringField(
+        'Email',
+        validators=[DataRequired(),Email()]
+    )
+    
+    password = PasswordField(
+        'Password', 
+        validators=[DataRequired(),Length(min=8),check_password_strength]
+    )
+    
+    password_confirmation = PasswordField(
+        'Confirm Password',
+        validators=[DataRequired(),EqualTo('password')]
+    )
+    
+    remember = BooleanField('Remember Me')
+    submit = SubmitField('Sign Up')
     
     def validate_username(self, username):        
         if User.query.filter_by(username=username.data).first():
@@ -63,10 +75,15 @@ class UpdateProfileForm(FlaskForm):
                 raise ValidationError("Username already exists")
 
 class LoginForm(FlaskForm):
-    email=StringField('Email',
-                      validators=[DataRequired(),Email()])
-    password=PasswordField('Password',
-                        validators=[DataRequired()])
-    remember=BooleanField('Remember Me')
-    submit=SubmitField('Login')
+    email = StringField(
+        'Email',
+        validators=[DataRequired(),Email()]
+    )
     
+    password = PasswordField(
+        'Password',
+        validators=[DataRequired()]
+    )
+    
+    remember = BooleanField('Remember Me')
+    submit = SubmitField('Login')

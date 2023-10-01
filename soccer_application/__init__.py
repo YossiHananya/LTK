@@ -25,7 +25,11 @@ def create_app(config_name=ConfigName.DEVELOPMENT):
     login_manager.login_message_category = 'info'
 
     with app.app_context():
-        from . import api
         db.create_all()
+
+    from .main.routes import main
+    from .users.routes import users
+    app.register_blueprint(main)
+    app.register_blueprint(users)
 
     return app
