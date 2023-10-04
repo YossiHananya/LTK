@@ -1,18 +1,48 @@
 import pytest
 from .conftest import db_session
-from soccer_application.models import User
+from soccer_application.models import Users,Games,Teams,Courts
+from datetime import datetime, timedelta, date
 
 # Define test data as a list of dictionaries
 test_data = [
     {
-        "table_cls": User,
+        "table_cls": Users,
         "origin_data": {
         "username": "John Doe",
-        "email": "johndoe2@gmail.com",
         "password": "Password1!"
         },
         "updated_data": {
             "username": "John1 Doe"
+        }
+    },
+    {
+        "table_cls": Teams,
+        "origin_data": {
+        "name": "LTK"
+        },
+        "updated_data": {
+            "name": "LTK1"
+        }
+    },
+    {
+        "table_cls": Courts,
+        "origin_data": {
+        "name": "Mekif",
+        "address": "Hahistadrot 7"
+        },
+        "updated_data": {
+        "name": "Mekif1",
+        "address": "Hahistadrot 8"
+        }
+    },
+    {
+        "table_cls": Games,
+        "origin_data": {
+        "game_date": date.today(),
+        "team_id": 
+        },
+        "updated_data": {
+            "game_date": date.today() - timedelta(days=1)
         }
     }
 ]
