@@ -1,5 +1,6 @@
 APP_CONFIG:
   DEBUG: True
-  DATABASE_URI: 'testing.db'
+  DATABASE_DIR: ''
+  DATABASE_URI: ':memory:'
   SECRET_KEY: '77c047c61ee454616ae47f76410bf10b'
   PORT: 5001
