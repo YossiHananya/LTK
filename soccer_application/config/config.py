@@ -10,8 +10,8 @@ class Config:
         with open(config_file,'r') as f:
             self.config_data=yaml.safe_load(f)
         
-    def get(self,key):
-        return self.config_data.get(key)
+    def get(self, key, default=None):
+        return self.config_data.get(key, default)
     
     @classmethod
     def from_type(cls, config_value=ConfigName.DEVELOPMENT):
