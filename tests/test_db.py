@@ -3,6 +3,7 @@ from .conftest import db_session
 from soccer_application.models import Users,Games,Teams,Courts
 from datetime import datetime, timedelta, date
 
+TESTING_DATETIME = datetime.now()
 # Define test data as a list of dictionaries
 test_data = [
     {
@@ -13,6 +14,17 @@ test_data = [
         },
         "updated_data": {
             "username": "John1 Doe"
+        }
+    },
+    {
+        "table_cls": Games,
+        "origin_data": {
+        "game_date": TESTING_DATETIME,
+        "team_id": 1,
+        "court_id": 1
+        },
+        "updated_data": {
+            "game_date": TESTING_DATETIME - timedelta(days=1)
         }
     },
     {
@@ -33,16 +45,6 @@ test_data = [
         "updated_data": {
         "name": "Mekif1",
         "address": "Hahistadrot 8"
-        }
-    },
-    {
-        "table_cls": Games,
-        "origin_data": {
-        "game_date": date.today(),
-        "team_id": 
-        },
-        "updated_data": {
-            "game_date": date.today() - timedelta(days=1)
         }
     }
 ]
