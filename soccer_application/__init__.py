@@ -4,7 +4,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from .config.config import Config
-import os
 from .config.config_names import ConfigName
 
 db=SQLAlchemy()
@@ -24,6 +23,8 @@ def create_app(config_name=ConfigName.DEVELOPMENT):
     login_manager.init_app(app)
     login_manager.login_view = 'login'
     login_manager.login_message_category = 'info'
+
+    import soccer_application.models
 
     with app.app_context():
         db.create_all()
