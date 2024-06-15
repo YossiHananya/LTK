@@ -1,27 +1,14 @@
 import pytest
 from .conftest import db_session
-from soccer_application.models import User
+from .test_data import dummy_data
 
-# Define test data as a list of dictionaries
-test_data = [
-    {
-        "table_cls": User,
-        "origin_data": {
-        "username": "John Doe",
-        "email": "johndoe2@gmail.com",
-        "password": "Password1!"
-        },
-        "updated_data": {
-            "username": "John1 Doe"
-        }
-    }
-]
 
 #Testing CRUD (Create, Read, Update & Delete) for Generic table
-@pytest.mark.parametrize("test_data", test_data)
-def test_create_db_object(db_session, test_data):
-    obj_data = test_data['origin_data']
-    db_obj_cls = test_data['table_cls']
+@pytest.mark.parametrize("dummy_data", dummy_data)
+def test_create_db_object(db_session, dummy_data):
+    
+    obj_data = dummy_data['origin_data']
+    db_obj_cls = dummy_data['table_cls']
     
     # Create a db object
     new_obj = db_obj_cls(**obj_data)
@@ -31,10 +18,11 @@ def test_create_db_object(db_session, test_data):
     # Test that the db object was added to the database
     assert db_session.query(db_obj_cls).count() == 1
 
-@pytest.mark.parametrize("test_data", test_data)
-def test_read_db_obj(db_session, test_data):
-    obj_data = test_data['origin_data']
-    db_obj_cls = test_data['table_cls']
+@pytest.mark.parametrize("dummy_data", dummy_data)
+def test_read_db_obj(db_session, dummy_data):
+
+    obj_data = dummy_data['origin_data']
+    db_obj_cls = dummy_data['table_cls']
 
     # Test that the db object can be queried from the database
     fetched_object = db_session.query(db_obj_cls).first()
@@ -42,10 +30,11 @@ def test_read_db_obj(db_session, test_data):
     for key,value in obj_data.items():
         assert getattr(fetched_object, key) == value
 
-@pytest.mark.parametrize("test_data", test_data)
-def test_update_db_object(db_session, test_data):
-    updated_data = test_data['updated_data']
-    db_obj_cls = test_data['table_cls']
+@pytest.mark.parametrize("dummy_data", dummy_data)
+def test_update_db_object(db_session, dummy_data):
+
+    updated_data = dummy_data['updated_data']
+    db_obj_cls = dummy_data['table_cls']
     
     fetched_object = db_session.query(db_obj_cls).first()
 
@@ -62,9 +51,10 @@ def test_update_db_object(db_session, test_data):
     for key in updated_data.keys():
         assert getattr(updated_object, key) == updated_data[key]
 
-@pytest.mark.parametrize("test_data", test_data)
-def test_delete_db_object(db_session, test_data):
-    db_obj_cls = test_data['table_cls']
+@pytest.mark.parametrize("dummy_data", dummy_data)
+def test_delete_db_object(db_session, dummy_data):
+    
+    db_obj_cls = dummy_data['table_cls']
     
     fetched_object = db_session.query(db_obj_cls).first()
     # Test deleting the object
