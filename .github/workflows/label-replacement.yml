@@ -1,0 +1,35 @@
+name: Handle Labels
+
+on:
+  issues:
+    types: [labeled, opened]
+  pull_request:
+    types: [labeled, opened]
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  handle-labels:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Check and Handle Labels
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python .github/handlers/handle_labels.py '${{ github.event_name }}' '${{ toJson(github.event) }}'
