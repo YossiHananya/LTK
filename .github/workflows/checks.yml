@@ -1,0 +1,24 @@
+name: pre-receive
+
+on: [push]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      # Add your custom logic here, e.g., linting, running tests, etc.
+      - name: Run Pre-receive Hook Check
+        run: |
+          echo "Running custom checks..."
+          # Simulate logic that would go in a pre-receive hook
+          # Example: fail the check if certain files are modified
+          
+          #if git diff --name-only HEAD^ HEAD | grep 'forbidden_file.txt'; then
+          #  echo "Error: forbidden_file.txt was modified!"
+          #  exit 1
+          #fi
+          pip install -r requirements-dev.txt
+          pytest -s tests/ 
